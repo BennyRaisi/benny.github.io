@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماجراجویی کونی</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: auto;
+            font-size: 16px;
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .custom-btn {
+            padding: 15px 25px;
+            margin: 10px;
+            font-size: 18px;
+            border: none;
+            color: #000; /* فونت سیاه */
+            border-radius: 10px;
+            cursor: pointer;
+            width: 80%;
+            max-width: 300px;
+        }
+        #palaceBtn { background: #ff4444; }
+        #cabinBtn { background: #44ff44; }
+        #chatBtn { background: #4444ff; }
+        #golzarBtn { background: #ff44ff; }
+        #appBtn { background: #ffff44; } /* زرد برای دکمه جدید */
+        #mainMenu, #chatBox {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        #chatMessages {
+            width: 90%;
+            max-height: 60vh;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .chat-message {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            max-width: 80%;
+            font-size: 14px;
+        }
+        .chat-message.user {
+            background: #ff6666;
+            align-self: flex-end;
+        }
+        .chat-message.ai {
+            background: #6666ff;
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+        }
+        .chat-message.ai img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        #chatInputArea {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+        }
+        #chatInput {
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        #message img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+        }
+        #golzarSection {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #golzarSection img {
+            width: 45%;
+            margin: 10px;
+            border-radius: 10px;
+        }
+        #golzarSection .golzar-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #ff6666;
+            border: none;
+            color: #000; /* فونت سیاه */
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        #appSection {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+        }
+        #appSection img {
+            width: 150px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div id="mainMenu">
+        <button id="palaceBtn" class="custom-btn">کاخ بنی</button>
+        <button id="cabinBtn" class="custom-btn">کلبه ارشد</button>
+        <button id="chatBtn" class="custom-btn">چت با هوش مصنوعی</button>
+        <button id="golzarBtn" class="custom-btn">گلزار یا BTS؟</button>
+        <button id="appBtn" class="custom-btn">دانلود اپلیکیشن همه‌کاره بنی</button>
+    </div>
+    <div id="message"></div>
+    <div id="chatBox">
+        <div id="chatMessages"></div>
+        <div id="chatInputArea">
+            <input type="text" id="chatInput" placeholder="یه چیزی بگو...">
+            <button id="sendBtn" class="custom-btn">ارسال</button>
+            <button id="backToMenuBtn" class="custom-btn">بازگشت به منو</button>
+        </div>
+    </div>
+    <div id="golzarSection" style="display: none;">
+        <h2>کدوم رو انتخاب می‌کنی؟ (۱۰ ثانیه وقت داری!)</h2>
+        <div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Mohammad_Reza_Golzar_at_the_press_conference_of_%27Bighararam%27_series.jpg/220px-Mohammad_Reza_Golzar_at_the_press_conference_of_%27Bighararam%27_series.jpg" alt="محمدرضا گلزار">
+            <button class="golzar-btn" onclick="window.location.href='https://www.pornhub.com/'">انتخاب گلزار</button>
+        </div>
+        <div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/BTS_at_the_2019_American_Music_Awards.png/220px-BTS_at_the_2019_American_Music_Awards.png" alt="BTS">
+            <button class="golzar-btn" onclick="window.location.href='https://www.pornhub.com/'">انتخاب BTS</button>
+        </div>
+        <button id="golzarBackBtn" class="custom-btn">بازگشت به منو</button>
+    </div>
+    <div id="appSection" style="display: none;">
+        <p>بزودی در مایکت...</p>
+        <img src="https://myket.ir/favicon.ico" alt="لوگوی مایکت">
+        <button id="appBackBtn" class="custom-btn">بازگشت به منو</button>
+    </div>
+
+    <!-- صداهای جدید -->
+    <audio id="menuSound" src="https://www.myinstants.com/media/sounds/oh-yeah.mp3"></audio> <!-- منو: Oh Yeah -->
+    <audio id="palaceSound" src="https://www.myinstants.com/media/sounds/okay-lets-go.mp3"></audio> <!-- کاخ: Okay Let's Go -->
+    <audio id="cabinSound1" src="https://www.myinstants.com/media/sounds/sad-affleck.mp3"></audio> <!-- کلبه 1: Sad Affleck -->
+    <audio id="cabinSound2" src="https://www.myinstants.com/media/sounds/fail-sound-effect.mp3"></audio> <!-- کلبه 2: Fail -->
+    <audio id="chatSound" src="https://www.myinstants.com/media/sounds/interstellar-main-theme.mp3"></audio> <!-- چت: Interstellar Main Theme -->
+    <audio id="yesSound" src="https://www.myinstants.com/media/sounds/anime-wow.mp3"></audio> <!-- بله: Anime Wow -->
+    <audio id="noSound" src="https://www.myinstants.com/media/sounds/no-god-please-no.mp3"></audio> <!-- خیر: No God Please No -->
+    <audio id="stealSound" src="https://www.myinstants.com/media/sounds/busted.mp3"></audio> <!-- دزدی: Busted -->
+    <audio id="golzarSound" src="https://www.myinstants.com/media/sounds/10-second-countdown.mp3"></audio> <!-- گلزار: 10s Countdown -->
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 30, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": false }, "onclick": { "enable": false } }
+            }
+        });
+
+        const sounds = {
+            menu: document.getElementById("menuSound"),
+            palace: document.getElementById("palaceSound"),
+            cabin1: document.getElementById("cabinSound1"),
+            cabin2: document.getElementById("cabinSound2"),
+            chat: document.getElementById("chatSound"),
+            yes: document.getElementById("yesSound"),
+            no: document.getElementById("noSound"),
+            steal: document.getElementById("stealSound"),
+            golzar: document.getElementById("golzarSound")
+        };
+
+        let golzarTimeout; // متغیر برای مدیریت تایمر گلزار
+
+        function stopAllSounds() {
+            Object.values(sounds).forEach(sound => {
+                sound.pause();
+                sound.currentTime = 0;
+            });
+        }
+
+        function hideAll() {
+            document.getElementById("mainMenu").style.display = "none";
+            document.getElementById("message").style.display = "none";
+            document.getElementById("chatBox").style.display = "none";
+            document.getElementById("golzarSection").style.display = "none";
+            document.getElementById("appSection").style.display = "none";
+        }
+
+        function showMenu() {
+            stopAllSounds();
+            clearTimeout(golzarTimeout); // لغو تایمر گلزار اگه از بخش خارج بشی
+            hideAll();
+            document.getElementById("mainMenu").style.display = "flex";
+            sounds.menu.play().catch(e => console.log("Sound error:", e));
+        }
+
+        function goToPalace() {
+            stopAllSounds();
+            sounds.palace.play().catch(e => console.log("Sound error:", e));
+            hideAll();
+            const messageDiv = document.getElementById("message");
+            messageDiv.style.display = "block";
+            messageDiv.innerHTML = "سوپرایز! کونی فکر کردی اینجا جای توئه؟ آیا بنی بهت مجوز داده؟<br>";
+            const yesBtn = document.createElement("button");
+            yesBtn.textContent = "آره";
+            yesBtn.className = "custom-btn";
+            const noBtn = document.createElement("button");
+            noBtn.textContent = "نه";
+            noBtn.className = "custom-btn";
+            const backBtn = document.createElement("button");
+            backBtn.textContent = "بازگشت به منو";
+            backBtn.className = "custom-btn";
+            messageDiv.appendChild(yesBtn);
+            messageDiv.appendChild(noBtn);
+            messageDiv.appendChild(document.createElement("br"));
+            messageDiv.appendChild(backBtn);
+            yesBtn.addEventListener("click", answerYes);
+            noBtn.addEventListener("click", answerNo);
+            backBtn.addEventListener("click", showMenu);
+        }
+
+        function answerYes() {
+            stopAllSounds();
+            sounds.yes.play().catch(e => console.log("Sound error:", e));
+            hideAll();
+            const messageDiv = document.getElementById("message");
+            messageDiv.style.display = "block";
+            messageDiv.innerHTML = "<img src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop' alt='کاخ بنی'><br>تبریک! تو با کلی خایمالی و دروغ وارد کاخ بنی شدی<br>";
+            const stealBtn = document.createElement("button");
+            stealBtn.textContent = "دزدی از کاخ بنی";
+            stealBtn.className = "custom-btn";
+            const backBtn = document.createElement("button");
+            backBtn.textContent = "بازگشت به منو";
+            backBtn.className = "custom-btn";
+            messageDiv.appendChild(stealBtn);
+            messageDiv.appendChild(document.createElement("br"));
+            messageDiv.appendChild(backBtn);
+            stealBtn.addEventListener("click", stealFromPalace);
+            backBtn.addEventListener("click", showMenu);
+        }
+
+        function answerNo() {
+            stopAllSounds();
+            sounds.no.play().catch(e => console.log("Sound error:", e));
+            hideAll();
+            const messageDiv = document.getElementById("message");
+            messageDiv.style.display = "block";
+            messageDiv.innerHTML = "پس سیکتو بزن مرتیکه کونی!<br>";
+            const backBtn = document.createElement("button");
+            backBtn.textContent = "بازگشت به منو";
+            backBtn.className = "custom-btn";
+            messageDiv.appendChild(backBtn);
+            backBtn.addEventListener("click", showMenu);
+        }
+
+        function stealFromPalace() {
+            stopAllSounds();
+            sounds.steal.play().catch(e => console.log("Sound error:", e));
+            hideAll();
+            const messageDiv = document.getElementById("message");
+            messageDiv.style.display = "block";
+            messageDiv.innerHTML = "ای کونی مچتو گرفتم میدمحاج پاندا بخورتت!<br>";
+            const backBtn = document.createElement("button");
+            backBtn.textContent = "بازگشت به منو";
+            backBtn.className = "custom-btn";
+            messageDiv.appendChild(backBtn);
+            backBtn.addEventListener("click", showMenu);
+        }
+
+        function goToCabin() {
+            stopAllSounds();
+            sounds.cabin1.play().catch(e => console.log("Sound error:", e));
+            setTimeout(() => sounds.cabin2.play().catch(e => console.log("Sound error:", e)), 500);
+            hideAll();
+            const messageDiv = document.getElementById("message");
+            messageDiv.style.display = "block";
+            messageDiv.innerHTML = "<img src='https://images.unsplash.com/photo-1501685532562-aa6846b14a0e?q=80&w=800&auto=format&fit=crop' alt='کلبه ارشد'><br>تو وارد کلبه ارشد شدی و از بی‌آبی و گرسنگی مردی<br>";
+            const backBtn = document.createElement("button");
+            backBtn.textContent = "بازگشت به منو";
+            backBtn.className = "custom-btn";
+            messageDiv.appendChild(backBtn);
+            backBtn.addEventListener("click", showMenu);
+        }
+
+        function goToChat() {
+            stopAllSounds();
+            sounds.chat.play().catch(e => console.log("Sound error:", e));
+            hideAll();
+            document.getElementById("chatBox").style.display = "flex";
+            document.getElementById("chatInput").focus();
+        }
+
+        function goToGolzar() {
+            stopAllSounds();
+            sounds.golzar.play().catch(e => console.log("Sound error:", e));
+            hideAll();
+            document.getElementById("golzarSection").style.display = "block";
+            document.getElementById("golzarBackBtn").addEventListener("click", showMenu);
+            golzarTimeout = setTimeout(() => {
+                if (document.getElementById("golzarSection").style.display === "block") {
+                    window.location.href = "https://www.pornhub.com/";
+                }
+            }, 10000); // 10 ثانیه بعد هدایت به Pornhub فقط اگه تو بخش گلزار باشی
+        }
+
+        function goToApp() {
+            stopAllSounds();
+            hideAll();
+            document.getElementById("appSection").style.display = "block";
+            document.getElementById("appBackBtn").addEventListener("click", showMenu);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById("chatInput");
+            const message = input.value.trim();
+            const chatMessages = document.getElementById("chatMessages");
+
+            if (message) {
+                const userDiv = document.createElement("div");
+                userDiv.className = "chat-message user";
+                userDiv.textContent = message;
+                chatMessages.appendChild(userDiv);
+
+                const aiDiv = document.createElement("div");
+                aiDiv.className = "chat-message ai";
+                const aiImg = document.createElement("img");
+                aiImg.src = "https://upload.wikimedia.org/wikipedia/commons/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg";
+                aiDiv.appendChild(aiImg);
+
+                let response;
+                const lowerMessage = message.toLowerCase();
+                if (lowerMessage.includes("مولا")) {
+                    response = "هر چی بگی سلطان بنی سرورته، کونی گوه‌خور!";
+                } else if (lowerMessage.includes("سلام")) {
+                    response = "سلام کونی بی‌شعور، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("چطوری")) {
+                    response = "چطوری؟ مثل گوه‌ام چون با تو کونی حرف می‌زنم، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("حالت")) {
+                    response = "حالم از تو کثافت به‌هم می‌خوره، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("بنی")) {
+                    response = "بنی سلطانته، تو کونی فقط بلدی گوه بخوری، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("مسی")) {
+                    response = "مسی کیرمم نیست، تو کونی فقط لایق کیرمی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("خوبی")) {
+                    response = "خوبم، تو کونی چرا این‌قدر کصافتی؟ سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("چی")) {
+                    response = "چی؟ کیرم تو مغزت، تو کونی چیزی نمی‌فهمی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("کی")) {
+                    response = "کی؟ تو کونی کی باشی که جرأت سؤال داری؟ سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("کجا")) {
+                    response = "کجا؟ تو کونی فقط تو کونت جا داری، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("چرا")) {
+                    response = "چرا؟ چون تو کونی بیشعوری، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("خوب")) {
+                    response = "خوب؟ تو کونی که فقط گوهی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("بد")) {
+                    response = "بد؟ تو کونی همیشه بدبختی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("عشق")) {
+                    response = "عشق؟ تو کونی فقط عاشق کیرمی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("دوست")) {
+                    response = "دوست؟ تو کونی لیاقت دوستی با گوهم نداری، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("کار")) {
+                    response = "کار؟ تو کونی فقط بلدی گوه‌خوری کنی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("پول")) {
+                    response = "پول؟ تو کونی گدا فقط کیرم بهت می‌رسه، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("خدا")) {
+                    response = "خدا؟ تو کونی از خدا فقط کتک می‌خوری، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("نه")) {
+                    response = "نه؟ کیرم تو کونت نه نمی‌فهمه، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("آره")) {
+                    response = "آره؟ تو کونی فقط بلدی دروغ بگی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("باشه")) {
+                    response = "باشه؟ کیرم تو کونت باشه، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("ببخشید")) {
+                    response = "ببخشید؟ تو کونی کثافت معذرتتم گوهه، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("مرسی")) {
+                    response = "مرسی؟ تو کونی فقط لایق تفم هستی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("برو")) {
+                    response = "برو؟ تو کونی خودت گمشو، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("بیا")) {
+                    response = "بیا؟ تو کونی بیا کیرم بخور، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("خفه")) {
+                    response = "خفه؟ تو کونی خودت خفه شو، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("عکس")) {
+                    response = "عکس؟ تو کونی فقط عکس کونت قشنگه، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("فیلم")) {
+                    response = "فیلم؟ تو کونی فقط تو فیلم گوه‌خوری ستاره‌ای، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("آهنگ")) {
+                    response = "آهنگ؟ تو کونی فقط صدای کیرم برات آهنگه، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("جواب")) {
+                    response = "جواب؟ تو کونی فقط جواب کیرم می‌فهمی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("اسم")) {
+                    response = "اسم؟ تو کونی اسمت فقط کصافته، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("سن")) {
+                    response = "سن؟ تو کونی هر سنی باشی گوهی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("شب")) {
+                    response = "شب؟ تو کونی شب‌ها فقط کیر می‌بینی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("روز")) {
+                    response = "روز؟ تو کونی روزتم مثل گوهه، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("غذا")) {
+                    response = "غذا؟ تو کونی فقط گوه می‌خوری، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("خواب")) {
+                    response = "خواب؟ تو کونی تو خوابم کثافتی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("درس")) {
+                    response = "درس؟ تو کونی فقط درس گوه‌خوری خوندی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("بازی")) {
+                    response = "بازی؟ تو کونی فقط با کیرم بازی کن، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("عزیز")) {
+                    response = "عزیز؟ تو کونی عزیز کیرمی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("حوصله")) {
+                    response = "حوصله؟ تو کونی حوصله‌مو کیر کردی، سلطان بنی سرورته!";
+                } else if (lowerMessage.includes("فوتبال")) {
+                    response = "فوتبال؟ تو کونی فقط بلدی با کیرم شوت بزنی، سلطان بنی سرورته!";
+                } else {
+                    response = "هر چی بگی سلطان بنی سرورته، کونی گوه‌خور!";
+                }
+
+                aiDiv.innerHTML += response;
+                chatMessages.appendChild(aiDiv);
+
+                input.value = "";
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        document.getElementById("palaceBtn").addEventListener("click", goToPalace);
+        document.getElementById("cabinBtn").addEventListener("click", goToCabin);
+        document.getElementById("chatBtn").addEventListener("click", goToChat);
+        document.getElementById("golzarBtn").addEventListener("click", goToGolzar);
+        document.getElementById("appBtn").addEventListener("click", goToApp);
+        document.getElementById("sendBtn").addEventListener("click", sendMessage);
+        document.getElementById("backToMenuBtn").addEventListener("click", showMenu);
+
+        document.getElementById("chatInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+
+        hideAll();
+        document.getElementById("mainMenu").style.display = "flex";
+    </script>
+</body>
+</html>
